@@ -117,22 +117,19 @@ def handle_image_message(event):
 
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
+
+        # 画像取得
+        message_id = event.message.id
         message_content = MessagingApiBlob(api_client).get_message_content(message_id)
 
-    os.makedirs("images", exist_ok=True)
-    file_path = f"images/{message_id}.jpg"
+        # 保存
+        os.makedirs("images", exist_ok=True)
+        file_path = f"images/{message_id}.jpg"
 
-    with open(file_path, "wb") as f:
-        f.write(message_content)
+        with open(file_path, "wb") as f:
+            f.write(message_content)
 
-    with ApiClient(configuration) as api_client:
-        line_bot_api = MessagingApi(api_client)
-        # ① 画像URLを作る（仮）
-        image_url = "https://example.com/sample.jpg" # ←仮URL（後で直す）
-
-        # ② 型番抽出
-
-        # ③ 返信
+        # 返信
         line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
