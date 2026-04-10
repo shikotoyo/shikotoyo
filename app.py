@@ -140,6 +140,9 @@ def create_app():
     def health():
         return {"status": "ok"}
 
+    @flask_app.route("/")
+    def home():
+        return "OK"
     @flask_app.route("/__mockup/health", methods=["GET"])
     def health_mock():
         return {"status": "ok"}
