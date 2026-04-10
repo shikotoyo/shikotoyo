@@ -126,10 +126,17 @@ def handle_image_message(event):
 
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
+        # ① 画像URLを作る（仮）
+        image_url = "https://example.com/sample.jpg" # ←仮URL（後で直す）
+
+        # ② 型番抽出
+        model_number = extract_model_number(image_url)
+
+        # ③ 返信
         line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
-                messages=[TextMessage(text="画像OK")],
+                messages=[TextMessage(text=f"型番: {model_number}")],
             )
         )
 
