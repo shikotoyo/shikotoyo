@@ -144,7 +144,7 @@ def handle_image_message(event):
 def create_app():
     flask_app = Flask(__name__)
 
-    @flask_app.route("/webhook", methods=["POST"])
+    @flask_app.route("/callback", methods=["POST"])
     def webhook():
         signature = request.headers.get("X-Line-Signature", "")
         body = request.get_data(as_text=True)
