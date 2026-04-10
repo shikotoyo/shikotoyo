@@ -136,7 +136,7 @@ def handle_image_message(event):
         line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
-                messages=[TextMessage(text=f"型番: {model_number}")],
+                messages=[TextMessage(text="画像受け取ったぞ")]
             )
         )
 
