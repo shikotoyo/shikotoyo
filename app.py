@@ -130,13 +130,12 @@ def handle_image_message(event):
         image_url = "https://example.com/sample.jpg" # ←仮URL（後で直す）
 
         # ② 型番抽出
-        model_number = extract_model_number(image_url)
 
         # ③ 返信
         line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
-                messages=[TextMessage(text="画像受け取ったぞ")]
+                messages=[TextMessage(text="画像きたぞ")]
             )
         )
 
