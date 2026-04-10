@@ -143,13 +143,13 @@ def handle_image_message(event):
         with open(file_path, "wb") as f:
             f.write(message_content)
 
-        # 返信
         # 保存
         with open(file_path, "wb") as f:
             f.write(message_content)
 
         # 🔥GPTで型番抽出
         model_number = extract_model_number(file_path)
+        print("GPT結果:", model_number)
 
         # 🔥ログ出力（ここに入れる）
         print("GPT結果:", model_number)
