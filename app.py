@@ -58,9 +58,9 @@ def extract_model_number(image_path):
             }
         ],
         max_tokens=50
-)
+    )
 
-return response.choices[0].message.content.strip()
+    return response.choices[0].message.content.strip()
 
 
 from flask import Flask
