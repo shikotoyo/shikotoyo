@@ -31,6 +31,23 @@ import os
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+def extract_model_number(image_url):
+    response = client.chat.completions.create(
+        model="gpt-4.1-mini",
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": "画像から製品の型番だけを抽出してください。型番のみ返してください。"},
+                    {"type": "image_url", "image_url": {"url": image_url}}
+                ]
+            }
+        ],
+        max_tokens=50
+    )
+
+    return response.choices[0].message.content.strip()
+
 from flask import Flask
 
 
@@ -43,8 +60,6 @@ def create_app():
 
     return flask_app
 
-
-def extract_text(file_path):
     img = Image.open(file_path)
 
 
