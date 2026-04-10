@@ -144,10 +144,21 @@ def handle_image_message(event):
             f.write(message_content)
 
         # 返信
+        # 保存
+        with open(file_path, "wb") as f:
+            f.write(message_content)
+
+        # 🔥GPTで型番抽出
+        model_number = extract_model_number(file_path)
+
+        # 🔥ログ出力（ここに入れる）
+        print("GPT結果:", model_number)
+
+        # 返信
         line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
-                messages=[TextMessage(text="画像きたぞ")]
+                messages=[TextMessage(text=f"型番はこれだ👇\n{model_number}")]
             )
         )
 
