@@ -61,7 +61,7 @@ def extract_model_number(image_path):
                 ]
             }
         ],
-        max_tokens=50
+        max_tokens=20
     )
 
     return response.choices[0].message.content.strip()
