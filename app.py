@@ -124,62 +124,45 @@ def handle_text_message(event):
         )
 
 
-@handler.add(MessageEvent, message=ImageMessageContent)
+@handler.add(MessageEvent)
 def handle_image_message(event):
-    print("画像受信きた")
+    print("🔥イベント来た:", event)
 
-    message_id = event.message.id
+    if isinstance(event.message, ImageMessageContent):
+        print("🔥画像イベント入ったぞ")
 
-    with ApiClient(configuration) as api_client:
-        line_bot_api = MessagingApi(api_client)
-
-        # 画像取得
         message_id = event.message.id
-        message_content = MessagingApiBlob(api_client).get_message_content(message_id)
 
-        # 保存
-        os.makedirs("images", exist_ok=True)
-        file_path = f"images/{message_id}.jpg"
+        with ApiClient(configuration) as api_client:
+            line_bot_api = MessagingApi(api_client)
 
-        with open(file_path, "wb") as f:
-            f.write(message_content)
+            message_content = MessagingApiBlob(api_client).get_message_content(message_id)
 
-        # 保存
-        with open(file_path, "wb") as f:
-            f.write(message_content)
+            os.makedirs("images", exist_ok=True)
+            file_path = f"images/{message_id}.jpg"
 
-        print("ここまで来た①") # ←追加（型番抽出前）
+            with open(file_path, "wb") as f:
+                for chunk in message_content.iter_content():
+                    f.write(chunk)
 
-        # 🔥GPTで型番抽出
-        model_number = extract_model_number(file_path)
-        print("ここまで来た②", model_number) # ←変更
+            print("ここまで来た①")
 
-        yahoo_url, mercari_url = generate_search_links(model_number)
-        print("ここまで来た③", yahoo_url)
+            model_number = extract_model_number(file_path)
+            print("ここまで来た②", model_number)
 
-        yahoo_url, mercari_url = generate_search_links(model_number)
+            yahoo_url, mercari_url = generate_search_links(model_number)
+            print("ここまで来た③", yahoo_url)
 
-        # 🔥ログ出力（ここに入れる）
-        print("GPT結果:", model_number)
+            print("ここまで来た④（返信直前）")
 
-        # 返信
-        print("ここまで来た④（返信直前）")
-        line_bot_api.reply_message_with_http_info(
-            ReplyMessageRequest(
-                reply_token=event.reply_token,
-                messages=[TextMessage(text=f"""型番はこれだ👇
-                {model_number}
+            reply_text = f"型番はこれだ👇\n{model_number}\n\n【ヤフオク】\n{yahoo_url}\n\n【メルカリ】\n{mercari_url}"
 
-               【ヤフオク】
-                {yahoo_url}
-
-               【メルカリ】
-                {mercari_url}
-                """)]
+            line_bot_api.reply_message_with_http_info(
+                ReplyMessageRequest(
+                    reply_token=event.reply_token,
+                    messages=[TextMessage(text=reply_text)]
+                )
             )
-        )
-
-
 def create_app():
     flask_app = Flask(__name__)
 
