@@ -156,15 +156,25 @@ def handle_image_message(event):
 
             print("ここまで来た①")
 
-            model_number = extract_model_number(file_path)
-            print("ここまで来た②", model_number)
+            raw = extract_model_number(file_path)
 
-            yahoo_url, mercari_url = generate_search_links(model_number)
+            # JSONだけ抜き出す
+            match = re.search(r'\{.*\}', raw)
+            data = json.loads(match.group())
+
+            maker = data["maker"]
+            model = data["model"]
+
+            clean_text = f"{maker} {model}"
+
+            print("ここまで来た②", clean_text)
+
+            yahoo_url, mercari_url = generate_search_links(model)
             print("ここまで来た③", yahoo_url)
 
             print("ここまで来た④（返信直前）")
 
-            reply_text = f"型番はこれだ👇\n{model_number}\n\n【ヤフオク】\n{yahoo_url}\n\n【メルカリ】\n{mercari_url}"
+            reply_text = clean_text
 
             line_bot_api.reply_message_with_http_info(
                 ReplyMessageRequest(
