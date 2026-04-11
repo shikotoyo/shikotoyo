@@ -151,8 +151,7 @@ def handle_image_message(event):
             file_path = f"images/{message_id}.jpg"
 
             with open(file_path, "wb") as f:
-                with open(file_path, "wb") as f:
-                    f.write(message_content)
+                f.write(message_content)
 
             print("ここまで来た①")
 
