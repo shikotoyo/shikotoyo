@@ -8,9 +8,9 @@ from linebot.v3 import WebhookHandler
 import pytesseract
 from PIL import Image
 def resize_image(file_path):
-img = Image.open(file_path)
-img = img.resize((512, 512))
-img.save(file_path)
+    img = Image.open(file_path)
+    img = img.resize((512, 512))
+    img.save(file_path)
 
 from openai import OpenAI
 import urllib.parse
