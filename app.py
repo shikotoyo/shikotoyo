@@ -148,9 +148,14 @@ def handle_image_message(event):
         with open(file_path, "wb") as f:
             f.write(message_content)
 
+        print("ここまで来た①") # ←追加（型番抽出前）
+
         # 🔥GPTで型番抽出
         model_number = extract_model_number(file_path)
-        print("GPT結果:", model_number)
+        print("ここまで来た②", model_number) # ←変更
+
+        yahoo_url, mercari_url = generate_search_links(model_number)
+        print("ここまで来た③", yahoo_url)
 
         yahoo_url, mercari_url = generate_search_links(model_number)
 
@@ -158,6 +163,7 @@ def handle_image_message(event):
         print("GPT結果:", model_number)
 
         # 返信
+        print("ここまで来た④（返信直前）")
         line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
