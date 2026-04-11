@@ -151,6 +151,8 @@ def handle_image_message(event):
         model_number = extract_model_number(file_path)
         print("GPT結果:", model_number)
 
+        yahoo_url, mercari_url = generate_search_links(model_number)
+
         # 🔥ログ出力（ここに入れる）
         print("GPT結果:", model_number)
 
@@ -158,7 +160,15 @@ def handle_image_message(event):
         line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
-                messages=[TextMessage(text=f"型番はこれだ👇\n{model_number}")]
+                messages=[TextMessage(text=f"""型番はこれだ👇
+                {model_number}
+
+               【ヤフオク】
+                {yahoo_url}
+
+               【メルカリ】
+                {mercari_url}
+                """)]
             )
         )
 
