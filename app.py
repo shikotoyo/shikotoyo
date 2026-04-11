@@ -66,7 +66,13 @@ def extract_model_number(image_path):
 
 from flask import Flask
 
+def generate_search_links(model_number):
+    encoded = urllib.parse.quote(model_number)
 
+    yahoo_url = f"https://auctions.yahoo.co.jp/search/search?p={encoded}"
+    mercari_url = f"https://www.mercari.com/jp/search/?keyword={encoded}"
+
+    return yahoo_url, mercari_url
 def create_app():
     flask_app = Flask(__name__)
 
