@@ -6,6 +6,7 @@ from linebot.v3 import WebhookHandler
 import pytesseract
 from PIL import Image
 from openai import OpenAI
+import urllib.parse
 from linebot.v3.exceptions import InvalidSignatureError
 from linebot.v3.messaging import (
     Configuration,
