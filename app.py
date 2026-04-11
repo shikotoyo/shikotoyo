@@ -47,7 +47,8 @@ def extract_model_number(image_path):
                 "content": [
                     {
                         "type": "text",
-                        "text": "画像内の製品ラベルから型番（英数字）を1つだけ抽出してください。余計な説明は禁止。"
+                        "text": "画像内の製品ラベルからメーカー名と型番（英数字）を1つずつ抽出してください。JSON形式で返してください。例: {\"maker\": \"SONY\", \"model\": \"CUH-2100\"}"
+
                     },
                     {
                         "type": "image_url",
